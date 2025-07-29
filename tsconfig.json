@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es6",               // Moderniji JS output (može i "es5" za starije browsere)
+    "module": "none",              // Za direktno uključivanje JS fajla u HTML
+    "outDir": "./dist",            // Gde da se stavi JS output
+    "strict": true,                // Strožija provera tipova (preporučeno)
+    "sourceMap": true,             // Za lakše debugovanje u browseru
+    "esModuleInterop": true        // Da lakše koristiš commonJS module
+  },
+  "include": ["./src/**/*"],       // Svi TS fajlovi u src folderu
+  "exclude": ["node_modules"]      // Izostavi node_modules
+}
