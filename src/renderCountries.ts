@@ -1,23 +1,54 @@
+export interface Country {
+    name: {
+        common: string;
+        official: string;
+        nativeName?: Record<string, {
+            
+            official: string;
+            common: string;
+            
+        }>;
+
+    };
+    flags: {
+        png: string;
+    };
+    population: string;
+    region: string;
+    subregion?: string;
+    capital?: string[];
+    tld?: string[];
+    currencies?: Record<string, {
+        name: string;
+    }>;
+    languages?: Record<string, string>;
+    borders?: string[];
+    cca3: string;
+    
+}
+
+// name, flags, population, region, subregion, capital, tld, currencies, languages, borders, cca3
+
 let body = document.body;
-let container = document.getElementById('countries_container');
+let container = document.getElementById('countries_container') as HTMLElement;
 
 
-let modal = document.getElementById('modal');
-let modalBody = document.getElementById('modalBody');
-let closeModal = document.getElementById('closeModal');
+let modal = document.getElementById('modal') as HTMLElement;
+let modalBody = document.getElementById('modalBody') as HTMLElement;
+let closeModal = document.getElementById('closeModal') as HTMLElement;
 
-let countryCodeMap = [];
+let countryCodeMap: Record<string, { official: string; common: string }> = {};
 
 const requestURL = 'https://restcountries.com/v3.1/all?fullText=true&fields=name,flags,population,region,subregion,capital,currencies,languages,tld,cca3';
 const requestByName = 'https://restcountries.com/v3.1/name/';
 
-export let allCountriesData = [];
+export let allCountriesData: Country[] = [];
 
 // API
-export function AllCountries() {
+export function AllCountries(): void {
     fetch(requestURL)
         .then(response => response.json())
-        .then(data => {
+        .then((data: Country[]) => {
             allCountriesData = data;
             console.log(data, 'res')
             data.forEach(country => {
@@ -36,7 +67,7 @@ export function AllCountries() {
 AllCountries();
 
 
-export function renderCountries(data) {
+export function renderCountries(data: Country[]): void {
 
     container.innerHTML = '';
     data.forEach(country => {
@@ -74,17 +105,17 @@ export function renderCountries(data) {
     });
 }
 
-async function getCountryInfoByName(countryName) {
+async function getCountryInfoByName(countryName: string): Promise<Country[]> {
     const res = await fetch(requestByName + encodeURIComponent(countryName));
     return res.json();
 }
 
-async function showCountryModal(countryName) {
+async function showCountryModal(countryName: string): Promise<void>  {
     const res = await getCountryInfoByName(countryName);
     
     // CHINA
     const country = res.find(item => item.name.official === countryName );
-
+        if (!country) return;
     modal.style.display = 'flex';
     body.style.overflow = 'hidden';
 
@@ -132,11 +163,13 @@ async function showCountryModal(countryName) {
 function setupBorderButtons() {
     const borderButtons = document.querySelectorAll('.border-btn');
     borderButtons.forEach(button => {
-        const countryName = button.dataset.country;
-        
-            button.addEventListener('click', () => {
+        const btn = button as HTMLButtonElement;
+        const countryName = btn.dataset.country;
+        if(countryName) {
+            btn.addEventListener('click', () => {
                 showCountryModal(countryName);
             });
+        }
     });
 }
 

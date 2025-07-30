@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,25 +7,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.allCountriesData = void 0;
-exports.AllCountries = AllCountries;
-exports.renderCountries = renderCountries;
+// name, flags, population, region, subregion, capital, tld, currencies, languages, borders, cca3
 let body = document.body;
 let container = document.getElementById('countries_container');
 let modal = document.getElementById('modal');
 let modalBody = document.getElementById('modalBody');
 let closeModal = document.getElementById('closeModal');
-let countryCodeMap = [];
+let countryCodeMap = {};
 const requestURL = 'https://restcountries.com/v3.1/all?fullText=true&fields=name,flags,population,region,subregion,capital,currencies,languages,tld,cca3';
 const requestByName = 'https://restcountries.com/v3.1/name/';
-exports.allCountriesData = [];
+export let allCountriesData = [];
 // API
-function AllCountries() {
+export function AllCountries() {
     fetch(requestURL)
         .then(response => response.json())
-        .then(data => {
-        exports.allCountriesData = data;
+        .then((data) => {
+        allCountriesData = data;
         console.log(data, 'res');
         data.forEach(country => {
             if (country.cca3) {
@@ -40,7 +36,7 @@ function AllCountries() {
     });
 }
 AllCountries();
-function renderCountries(data) {
+export function renderCountries(data) {
     container.innerHTML = '';
     data.forEach(country => {
         var _a, _b;
@@ -84,6 +80,8 @@ function showCountryModal(countryName) {
         const res = yield getCountryInfoByName(countryName);
         // CHINA
         const country = res.find(item => item.name.official === countryName);
+        if (!country)
+            return;
         modal.style.display = 'flex';
         body.style.overflow = 'hidden';
         modalBody.innerHTML = `
@@ -129,10 +127,13 @@ function showCountryModal(countryName) {
 function setupBorderButtons() {
     const borderButtons = document.querySelectorAll('.border-btn');
     borderButtons.forEach(button => {
-        const countryName = button.dataset.country;
-        button.addEventListener('click', () => {
-            showCountryModal(countryName);
-        });
+        const btn = button;
+        const countryName = btn.dataset.country;
+        if (countryName) {
+            btn.addEventListener('click', () => {
+                showCountryModal(countryName);
+            });
+        }
     });
 }
 // CLOSE MODAL

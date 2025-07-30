@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.applyFilters = applyFilters;
-const renderCountries_js_1 = require("./renderCountries.js");
+import { allCountriesData, renderCountries } from './renderCountries.js';
 let searchInput = document.getElementById('input');
 let filtering = document.getElementById('region_filter');
 // DEBOUNCING
@@ -9,19 +6,19 @@ function debounce(func, delay) {
     let timeoutId;
     return function (...args) {
         clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => func.apply(this, args), delay);
+        timeoutId = setTimeout(() => func.apply(func, args), delay);
     };
 }
 // SEARCH + FILTER
-function applyFilters() {
-    let query = searchInput.value.trim().toLowerCase();
-    let region = filtering.value.trim().toLowerCase();
-    let filtered = renderCountries_js_1.allCountriesData.filter(country => {
+export function applyFilters() {
+    let query = searchInput === null || searchInput === void 0 ? void 0 : searchInput.value.trim().toLowerCase();
+    let region = filtering === null || filtering === void 0 ? void 0 : filtering.value.trim().toLowerCase();
+    let filtered = allCountriesData.filter(country => {
         let nameMatch = country.name.common.toLowerCase().includes(query);
         let regionMatch = country.region.toLowerCase().includes(region);
         return nameMatch && regionMatch;
     });
-    (0, renderCountries_js_1.renderCountries)(filtered);
+    renderCountries(filtered);
 }
 filtering.addEventListener('change', applyFilters);
 searchInput.addEventListener('input', debounce(applyFilters, 500));

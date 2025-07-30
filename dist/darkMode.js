@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.initDarkMode = initDarkMode;
-function initDarkMode() {
+export function initDarkMode() {
     let darkMode = document.getElementById('darkModeBtn');
     let body = document.body;
     darkMode.addEventListener('click', () => {

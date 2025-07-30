@@ -1,5 +1,5 @@
 export function initDarkMode() {
-    let darkMode = document.getElementById('darkModeBtn');
+    let darkMode = document.getElementById('darkModeBtn') as HTMLButtonElement;
     let body = document.body;
 
     darkMode.addEventListener('click', () => {
