@@ -49,7 +49,7 @@ export let allCountriesData: Country[] = [];
 // API
 export function AllCountries(): void {
   fetch(requestURL)
-    .then((response) => response.json())
+    .then((response) => response.json() as Promise<Country[]>)
     .then((data: Country[]) => {
       allCountriesData = data;
       data.forEach((country) => {
