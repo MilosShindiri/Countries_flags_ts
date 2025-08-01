@@ -4,9 +4,11 @@ let filtering = document.getElementById('region_filter');
 // DEBOUNCING
 function debounce(func, delay) {
     let timeoutId;
-    return function (...args) {
+    return (...args) => {
         clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => func.apply(func, args), delay);
+        timeoutId = setTimeout(() => {
+            func(...args);
+        }, delay);
     };
 }
 // SEARCH + FILTER
@@ -21,5 +23,5 @@ export function applyFilters() {
     renderCountries(filtered);
 }
 filtering.addEventListener('change', applyFilters);
-searchInput.addEventListener('input', debounce(applyFilters, 500));
+searchInput.addEventListener('input', (debounce(applyFilters, 500)));
 //# sourceMappingURL=filtering.js.map

@@ -1,10 +1,12 @@
 export function initDarkMode() {
-    let darkMode = document.getElementById('darkModeBtn') as HTMLButtonElement;
-    let body = document.body;
+  let darkMode = document.getElementById("darkModeBtn") as HTMLButtonElement;
+  let body = document.body;
 
-    darkMode.addEventListener('click', () => {
-        body.classList.toggle('dark-mode');
-        let isDark = body.classList.contains('dark-mode');
-        darkMode.innerHTML = `<span class="material-symbols-outlined">bedtime</span>${isDark ? 'Light Mode' : 'Dark Mode'}`;
-    });
+  darkMode.addEventListener("click", () => {
+    body.classList.toggle("dark-mode");
+    let isDark = body.classList.contains("dark-mode");
+    darkMode.innerHTML = `<span class="material-symbols-outlined">bedtime</span>${
+      isDark ? "Light Mode" : "Dark Mode"
+    }`;
+  });
 }
